@@ -1,10 +1,11 @@
-Feature: Add new item to ToDO list
+Feature: Booking a hotel using Demo site
 
-Scenario: Lambdatest ToDO Scenario
-
-Given user is on home Page
-When select First Item
-Then select second item
-Then add new item
-Then verify added item
-
+    Scenario: Book a hotel
+        When I open the demo site
+        Then Select the desired location 
+        And Select the number of guests
+        Then Search for the results
+        Then Select one of the hotels
+        And Proceed with booking
+        Then Download the invoice
+        

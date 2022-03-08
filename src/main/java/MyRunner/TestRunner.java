@@ -1,8 +1,8 @@
 package MyRunner;
 
 import java.net.URL;
+import java.util.HashMap;
 
-import org.openqa.selenium.remote.CapabilityType;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.remote.RemoteWebDriver;
 import org.testng.annotations.AfterClass;
@@ -45,22 +45,25 @@ public class TestRunner {
     		String username = System.getenv("LT_USERNAME") == null ? "YOUR LT_USERNAME" : System.getenv("LT_USERNAME"); 
     		String accesskey = System.getenv("LT_ACCESS_KEY") == null ? "YOUR LT_ACCESS_KEY" : System.getenv("LT_ACCESS_KEY"); 
 
-    		DesiredCapabilities capability = new DesiredCapabilities();    		
-    		capability.setCapability(CapabilityType.BROWSER_NAME, browser);
-    		capability.setCapability(CapabilityType.VERSION,version);
-    		capability.setCapability(CapabilityType.PLATFORM, platform);
-    		    		
-    		capability.setCapability("build", "Cucumber Sample Build");
-    		
-    		capability.setCapability("network", true);
-    		capability.setCapability("video", true);
-    		capability.setCapability("console", true);
-    		capability.setCapability("visual", true);
+            DesiredCapabilities capabilities = new DesiredCapabilities();
+            capabilities.setCapability("browserName", browser);
+            capabilities.setCapability("browserVersion", version);
+            HashMap<String, Object> ltOptions = new HashMap<String, Object>();
+            ltOptions.put("build", "Cucumber - Java");
+            ltOptions.put("name", "Cucumber Demo Test");
+            ltOptions.put("platformName", platform);
+            ltOptions.put("selenium_version","4.0.0");
+            ltOptions.put("geoLocation", "US");
+            ltOptions.put("network", true); // To enable network logs
+            ltOptions.put("visual", true); // To enable step by step screenshot
+            ltOptions.put("console", true); // To capture console logs
+            ltOptions.put("video",true);
+            capabilities.setCapability("LT:Options", ltOptions);
 
     		String gridURL = "https://" + username + ":" + accesskey + "@hub.lambdatest.com/wd/hub";
     		System.out.println(gridURL);
-    		connection = new RemoteWebDriver(new URL(gridURL), capability);
-    		System.out.println(capability);
+    		connection = new RemoteWebDriver(new URL(gridURL), capabilities);
+    		System.out.println(capabilities);
     		System.out.println(connection.getSessionId());
 }
  
